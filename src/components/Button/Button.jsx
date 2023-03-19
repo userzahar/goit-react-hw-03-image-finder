@@ -1,4 +1,4 @@
 
-export function Button() {
-    return <button>Load More</button>
+export function Button({hendleButton}) {
+    return <button onClick={hendleButton}>Load More</button>
 }

@@ -7,18 +7,43 @@ export class ImageGallery extends Component {
     state = {
         images: null,
         isLoading: false,
+        page: 1,
     }
     componentDidUpdate(prevProps) {
-        if (prevProps.searchText !== this.props.searchText) {
+        const { page } = this.state;
+        const { searchText } = this.props;
+        console.log("обнова")
+        if (prevProps.searchText !== searchText) {
+            console.log("page: ", page)
+            this.setState({ page: 1 })
             this.setState({ isLoading:true})
-            getImage(this.props.searchText)
+            getImage(searchText)
                 .then(res => res.json())
                 .then(img => {
-                    if (img.hits.length !== 0) this.setState({ images: img.hits, isLoading: false })
+                    if (img.hits.length !== 0)
+                        {this.setState((perState) => {
+                        return { page: perState.page + 1 }
+                        })
+                        return this.setState({ images: img.hits })}
                 }).catch(error=>console.log(error)).finally(item => this.setState({ isLoading: false }));
-        }
-               
+        }  
         return;
+    }
+    heandleLoadMore = (e) => {
+        e.preventDefault();
+        const { page } = this.state;
+        console.log("🧨 ~ page:", page)
+        this.setState((perState) => {
+                return { page: perState.page + 1 }
+            })
+        const { searchText } = this.props;
+        this.setState({ isLoading: true })
+        getImage(searchText, page)
+            .then(res => res.json())
+            .then(img => {
+                    if (img.hits.length !== 0) this.setState(prev =>  {return {images: [...prev.images, ...img.hits]}} )
+                }).catch(error=>console.log(error)).finally(item => this.setState({ isLoading: false }))
+        
     }
     render() {
         const { images,isLoading } = this.state;
@@ -37,7 +62,7 @@ export class ImageGallery extends Component {
             return <ImageGalleryItem key={img.id} link={img.webformatURL} altTitle={img.tags} />
         })}
         </ul>
-            {images&&<Button />}
+            {images&&<Button hendleButton={this.heandleLoadMore}/>}
         </>
     }
 } 

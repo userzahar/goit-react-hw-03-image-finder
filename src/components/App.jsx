@@ -4,7 +4,6 @@ import { ImageGallery } from "./ImageGallery/ImageGallery";
 export class App extends Component {
   state = {
     value: '',
-    data:[]
   }
 
   handleSearch = (searchText) => {
