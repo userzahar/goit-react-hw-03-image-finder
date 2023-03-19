@@ -62,7 +62,7 @@ export class ImageGallery extends Component {
             return <ImageGalleryItem key={img.id} link={img.webformatURL} altTitle={img.tags} />
         })}
         </ul>
-            {images&& images?.length !== 0 && <Button hendleButton={this.heandleLoadMore}/>}
+            {images&&  <Button hendleButton={this.heandleLoadMore}/>}
         </>
     }
 } 
