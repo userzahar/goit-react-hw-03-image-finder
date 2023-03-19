@@ -2,24 +2,37 @@ import { Button } from "components/Button/Button";
 import { ImageGalleryItem } from "components/ImageGalleryItem/ImageGalleryItem";
 import { getImage } from "fetchLink/link"
 import { Component } from "react"
-
+import { Triangle } from "react-loader-spinner";
 export class ImageGallery extends Component {
     state = {
         images: null,
+        isLoading: false,
     }
     componentDidUpdate(prevProps) {
         if (prevProps.searchText !== this.props.searchText) {
+            this.setState({ isLoading:true})
             getImage(this.props.searchText)
                 .then(res => res.json())
-                .then(img => this.setState({ images: img.hits }));
+                .then(img => {
+                    if (img.hits.length !== 0) this.setState({ images: img.hits, isLoading: false })
+                }).catch(error=>console.log(error)).finally(item => this.setState({ isLoading: false }));
         }
+               
         return;
     }
     render() {
-        const { images } = this.state;
-        console.log("🧮", images)
-        
-        return<> <ul className="gallery">
+        const { images,isLoading } = this.state;
+        return <>
+            {isLoading&&<Triangle
+            height="80"
+            width="80"
+            color="#4fa94d"
+            ariaLabel="triangle-loading"
+            wrapperStyle={{}}
+            wrapperClassName=""
+            visible={true}
+            />}
+            <ul className="gallery">
         {images && images.map(img => {
             return <ImageGalleryItem key={img.id} link={img.webformatURL} altTitle={img.tags} />
         })}
