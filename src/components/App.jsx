@@ -1,19 +1,21 @@
 import { Component } from "react"
 import { SearchBar } from "./Searchbar/Searchbar";
-
+import { ImageGallery } from "./ImageGallery/ImageGallery";
 export class App extends Component {
   state = {
-    value:''
+    value: '',
+    data:[]
   }
-  handleSubmit = (e) => {
-    e.preventDefault();
-    this.setState({ value:e.target.elements.search.value})
+
+  handleSearch = (searchText) => {
+    this.setState({ value:searchText})
   }
+
   render() {
-    console.log("🎉",this.state.value)
     return (
       <div>
-        <SearchBar onSubmit={this.handleSubmit} />
+        <SearchBar onSubmit={this.handleSearch} />
+        <ImageGallery searchText={this.state.value} />
       </div>
     );
   }
