@@ -17,7 +17,6 @@ export class ImageGallery extends Component {
         window.addEventListener('keydown', this.handleKeyDown)
     }
     handleKeyDown = e => {
-        console.log(e.code)
         if (e.code === "Escape") {
             this.setState({ isHidden:false})
         }
@@ -27,10 +26,8 @@ export class ImageGallery extends Component {
         window.removeEventListener("keydown", this.handleKeyDown)
     }
     componentDidUpdate(prevProps) {
-        const { page } = this.state;
         const { searchText } = this.props;
         if (prevProps.searchText !== searchText) {
-            console.log("page: ", page)
             this.setState({ page: 1 })
             this.setState({ isLoading:true})
             getImage(searchText)
@@ -48,7 +45,6 @@ export class ImageGallery extends Component {
     heandleLoadMore = (e) => {
         e.preventDefault();
         const { page } = this.state;
-        console.log("🧨 ~ page:", page)
         this.setState((perState) => {
                 return { page: perState.page + 1 }
             })
@@ -61,7 +57,9 @@ export class ImageGallery extends Component {
                 }).catch(error=>console.log(error)).finally(item => this.setState({ isLoading: false }))
         
     }
-
+    handleOverlay = ({target}) => {
+        if(target.tagName !=="IMG") this.setState({isHidden:false})
+    }
     handleImage = ({ target }) => {
         if(target.tagName === "IMG") 
         {this.setState({
@@ -98,8 +96,8 @@ export class ImageGallery extends Component {
         </ul>
             {images && <Button hendleButton={this.heandleLoadMore} />}
             {isHidden && <Modal
-                largeImage={this.state.modalSrc}
-                handleEscape={this.onEscapeClick} />}
+                overlayClick={this.handleOverlay}
+                largeImage={this.state.modalSrc} />}
         </div>
     }
 } 

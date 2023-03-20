@@ -1,4 +1,6 @@
+import { ButtonStyled } from "components/Button/StyledButton";
 import { Component } from "react";
+import { SearchBarStyled } from "./StyledForm";
 
 export class SearchBar extends Component{
   state = {
@@ -13,11 +15,11 @@ export class SearchBar extends Component{
   }
   
   render() {
-        return <header className="searchbar">
+        return <SearchBarStyled>
   <form className="form" onSubmit={this.handleSubmit}>
-    <button type="submit" className="button">
+    <ButtonStyled type="submit" className="button">
       <span className="button-label">Search</span>
-    </button>
+    </ButtonStyled>
 
     <input
       className="input"
@@ -29,6 +31,6 @@ export class SearchBar extends Component{
       onChange={this.handleChange}
     />
   </form>
-</header>
+</SearchBarStyled>
     }
 }

@@ -1,4 +1,6 @@
+import { ButtonStyled } from "./StyledButton"
 
 export function Button({hendleButton}) {
-    return <button onClick={hendleButton}>Load More</button>
+    return <ButtonStyled onClick={hendleButton}>Load More</ButtonStyled>
 }
+

@@ -1,10 +1,12 @@
+import { ModalStyled, Overlay } from "./StyledModal"
 
-export function Modal ({largeImage}){
+export function Modal ({largeImage,overlayClick}){
      
-    return <div className="overlay">
-  <div className="modal">
+    return <Overlay onClick={overlayClick}>
+  <ModalStyled >
     <img src={largeImage} alt="" />
-  </div>
-</div>
+  </ModalStyled>
+</Overlay>
     
 }
+
