@@ -1,8 +1,11 @@
 import { ButtonStyled } from "components/Button/StyledButton";
 import { Component } from "react";
 import { SearchBarStyled } from "./StyledForm";
-
+import PropTypes from 'prop-types';
 export class SearchBar extends Component{
+  static = {
+    onSubmit:PropTypes.func.isRequired
+  }
   state = {
     search:''
   }

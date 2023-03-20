@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { Button } from "components/Button/Button";
 import { ImageGalleryItem } from "components/ImageGalleryItem/ImageGalleryItem";
 import { Modal } from "components/Modal/Modal";
@@ -6,6 +7,9 @@ import { Component } from "react"
 import { Triangle } from "react-loader-spinner";
 
 export class ImageGallery extends Component {
+    static = {
+        searchText:PropTypes.string.isRequired
+    }
     state = {
         images: null,
         isLoading: false,
