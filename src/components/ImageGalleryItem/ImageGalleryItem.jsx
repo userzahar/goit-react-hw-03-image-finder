@@ -1,6 +1,8 @@
 
-export function ImageGalleryItem({link, altTitle}) {
-    return <li className="gallery-item">
-  <img src={link} alt={altTitle} />
+export function ImageGalleryItem({link, altTitle, largeImage}) {
+  return <li className="gallery-item">
+      <a href={largeImage}>
+      <img src={link} alt={altTitle} />
+      </a>
 </li>
 }

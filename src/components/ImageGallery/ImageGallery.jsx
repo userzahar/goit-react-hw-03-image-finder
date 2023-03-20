@@ -3,6 +3,7 @@ import { ImageGalleryItem } from "components/ImageGalleryItem/ImageGalleryItem";
 import { getImage } from "fetchLink/link"
 import { Component } from "react"
 import { Triangle } from "react-loader-spinner";
+import * as basicLightbox from 'basiclightbox';
 export class ImageGallery extends Component {
     state = {
         images: null,
@@ -59,7 +60,11 @@ export class ImageGallery extends Component {
             />}
             <ul className="gallery">
         {images && images.map(img => {
-            return <ImageGalleryItem key={img.id} link={img.webformatURL} altTitle={img.tags} />
+            return <ImageGalleryItem
+                key={img.id}
+                link={img.webformatURL}
+                largeImage={img.largeImageURL}
+                altTitle={img.tags} />
         })}
         </ul>
             {images&& <Button hendleButton={this.heandleLoadMore}/>}
