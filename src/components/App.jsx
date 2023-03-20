@@ -9,7 +9,6 @@ export class App extends Component {
   handleSearch = (searchText) => {
     this.setState({ value:searchText})
   }
-
   render() {
     return (
       <div>

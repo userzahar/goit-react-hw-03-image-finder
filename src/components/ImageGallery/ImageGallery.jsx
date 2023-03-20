@@ -1,19 +1,34 @@
 import { Button } from "components/Button/Button";
 import { ImageGalleryItem } from "components/ImageGalleryItem/ImageGalleryItem";
+import { Modal } from "components/Modal/Modal";
 import { getImage } from "fetchLink/link"
 import { Component } from "react"
 import { Triangle } from "react-loader-spinner";
-import * as basicLightbox from 'basiclightbox';
+
 export class ImageGallery extends Component {
     state = {
         images: null,
         isLoading: false,
         page: 1,
+        isHidden: false,
+        modalSrc:null,
+    }
+        componentDidMount() {
+        window.addEventListener('keydown', this.handleKeyDown)
+    }
+    handleKeyDown = e => {
+        console.log(e.code)
+        if (e.code === "Escape") {
+            this.setState({ isHidden:false})
+        }
+            
+    }
+    componentWillUnmount =()=> {
+        window.removeEventListener("keydown", this.handleKeyDown)
     }
     componentDidUpdate(prevProps) {
         const { page } = this.state;
         const { searchText } = this.props;
-        console.log("обнова")
         if (prevProps.searchText !== searchText) {
             console.log("page: ", page)
             this.setState({ page: 1 })
@@ -46,9 +61,22 @@ export class ImageGallery extends Component {
                 }).catch(error=>console.log(error)).finally(item => this.setState({ isLoading: false }))
         
     }
+
+    handleImage = ({ target }) => {
+        if(target.tagName === "IMG") 
+        {this.setState({
+            isHidden: true,
+            modalSrc:target.lowsrc,
+        })
+        } else {
+            this.setState({
+            isHidden: false,
+        })
+        }
+    }
     render() {
-        const { images,isLoading } = this.state;
-        return <>
+        const { images,isLoading,isHidden } = this.state;
+        return <div >
             {isLoading&&<Triangle
             height="80"
             width="80"
@@ -58,16 +86,20 @@ export class ImageGallery extends Component {
             wrapperClassName=""
             visible={true}
             />}
-            <ul className="gallery">
-        {images && images.map(img => {
+            <ul className="gallery" onClick={this.handleImage}>
+                {images && images.map(img => {
             return <ImageGalleryItem
-                key={img.id}
-                link={img.webformatURL}
-                largeImage={img.largeImageURL}
-                altTitle={img.tags} />
+                        key={img.id}
+                        link={img.webformatURL}
+                        altTitle={img.tags}
+                        largeImage={img.largeImageURL}
+                    />
         })}
         </ul>
-            {images&& <Button hendleButton={this.heandleLoadMore}/>}
-        </>
+            {images && <Button hendleButton={this.heandleLoadMore} />}
+            {isHidden && <Modal
+                largeImage={this.state.modalSrc}
+                handleEscape={this.onEscapeClick} />}
+        </div>
     }
 } 
