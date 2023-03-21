@@ -1,12 +1,10 @@
 import { Component } from "react";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { Searchbar } from "./Searchbar/Searchbar";
 import { ImageGallery } from "./ImageGallery/ImageGallery";
 import { Loader } from "./Loader/Loader";
 import { Button } from "./Button/Button";
 import { Modal } from "./Modal/Modal";
-import { getImages } from "apiService/apiService";
+import { getImages } from "components/apiService";
 import { AppDiv } from "./App.styled";
 
 export class App extends Component {
@@ -31,13 +29,13 @@ export class App extends Component {
         const response = await getImages(this.state.searchInputValue, this.state.page);
 
         if(response.images.length === 0) {
-          toast.error(`These are no "${this.state.foundSearch}" images`);
+          alert(`These are no "${this.state.foundSearch}" images`);
         return;
         };
         
         
         if(this.state.page === 1) {
-          toast.success(`We found ${response.totalHits} images`);
+          console.log(`We found ${response.totalHits} images`);
         };
         
         this.setState(prevState => ({
@@ -46,7 +44,7 @@ export class App extends Component {
         }));
      
       } catch (error) {
-        toast.error(error.message);
+        alert(error.message);
         
       }finally{this.setState({loader: false})}; 
     };
@@ -61,7 +59,7 @@ export class App extends Component {
     e.preventDefault();
     window.scrollTo(0,0);
     if (searchInputValue.trim() === '') {
-      toast.error(`Search request shouldn't be empty`);
+      alert(`Search request shouldn't be empty`);
       return;
     };
     if(searchInputValue !== foundSearch) {
@@ -95,7 +93,6 @@ export class App extends Component {
         {loader === true && <Loader />}
         {loadMoreButton && <Button onClick={this.loadMore} />}
         {showModal  && <Modal modalClose={this.modalClose} children={<img src={modalImgSrc} alt={modalImgAlt}/>}/>}
-        <ToastContainer autoClose={2500} />
       </AppDiv> 
     );
   };
