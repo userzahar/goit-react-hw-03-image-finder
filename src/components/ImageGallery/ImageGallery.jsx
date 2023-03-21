@@ -88,7 +88,7 @@ export class ImageGallery extends Component {
             wrapperClassName=""
             visible={true}
             />}
-            <ul className="gallery" onClick={this.handleImage}>
+        {images && <ul className="gallery" onClick={this.handleImage}>
                 {images && images.map(img => {
             return <ImageGalleryItem
                         key={img.id}
@@ -97,7 +97,7 @@ export class ImageGallery extends Component {
                         largeImage={img.largeImageURL}
                     />
         })}
-        </ul>
+        </ul>}
             {images && <Button hendleButton={this.heandleLoadMore} />}
             {isHidden && <Modal
                 overlayClick={this.handleOverlay}
