@@ -1,6 +1,6 @@
-const { default: styled } = require('styled-components');
+import styled from "@emotion/styled";
 
-export const ButtonStyled = styled.button`
+export const ButtonEl = styled.button`
   padding: 8px 16px;
   border-radius: 2px;
   background-color: #3f51b5;
